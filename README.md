@@ -4,7 +4,7 @@ A Streamlit-based dashboard for analyzing Home Mortgage Disclosure Act (HMDA) da
 
 ## Credits
 
-This project builds upon the data analysis agent created by [saoudrizwan](https://github.com/saoudrizwan). The original visualization capabilities have been extended to include HMDA data integration while maintaining the core analysis functionality.
+This project builds upon the data analysis agent created by (placeholder). The original visualization capabilities have been extended to include HMDA data integration while maintaining the core analysis functionality.
 
 ## Features
 
