@@ -11,20 +11,23 @@ class HMDADataAgent:
     """Agent for fetching and processing HMDA (Home Mortgage Disclosure Act) data"""
     
     def __init__(self):
-        self.base_url = "https://ffiec.cfpb.gov/v2/data-browser-api/view"
-        self.years_available = list(range(2018, 2024))  # HMDA data from 2018 onwards
+        self.base_url = "https://ffiec.cfpb.gov/v2/data-browser-api/view/csv"
+        self.years_available = list(range(2018, 2024))  # HMDA data from 2018 to 2023
         
-    def fetch_hmda_data(self, year: int, state_code: str = None, variables: List[str] = None):
+    def fetch_hmda_data(self, year: int, state_code: str, variables: List[str] = None):
         """
-        Fetch HMDA data for a specific year and optionally filter by state
+        Fetch HMDA data for a specific year and state
         
         Args:
             year: The year to fetch data for (2018 onwards)
-            state_code: Optional two-letter state code
+            state_code: Two-letter state code (required)
             variables: List of HMDA variables to include
         """
         if year not in self.years_available:
             raise ValueError(f"Data only available for years: {self.years_available}")
+            
+        if not state_code:
+            raise ValueError("State code is required")
             
         if variables is None:
             variables = [
@@ -37,29 +40,30 @@ class HMDADataAgent:
                 "state_code"
             ]
             
-        params = {
-            "years": year,
-            "variables": variables
-        }
+        # Build parameters
+        params = []
         
-        if state_code:
-            params["state_code"] = state_code
+        # Add year
+        params.append(("years", str(year)))
+        
+        # Add state code
+        params.append(("states", state_code.upper()))
+        
+        # Add variables
+        for var in variables:
+            params.append(("variables", var))
             
         try:
             response = requests.get(self.base_url, params=params)
             response.raise_for_status()
             
-            # Convert response to DataFrame
-            df = pd.read_csv(StringIO(response.text))
+            # Convert response to DataFrame with low_memory=False to handle mixed types
+            df = pd.read_csv(StringIO(response.text), low_memory=False)
             
             # Save the data
-            filename = f"hmda_data_{year}"
-            if state_code:
-                filename += f"_{state_code}"
-            filename += ".csv"
-            
+            filename = f"hmda_data_{year}_{state_code.upper()}.csv"
             filepath = os.path.join("uploads", filename)
-            df.to_csv(filepath, index=False)
+            df.to_csv(filepath, index=False, encoding='utf-8')
             
             # Update data dictionary
             self._update_data_dictionary(filename, year, state_code, variables)
@@ -68,9 +72,11 @@ class HMDADataAgent:
             
         except requests.RequestException as e:
             st.error(f"Error fetching HMDA data: {str(e)}")
+            if hasattr(e.response, 'text'):
+                st.error(f"Response content: {e.response.text}")
             return None
             
-    def _update_data_dictionary(self, filename: str, year: int, state_code: str = None, variables: List[str] = None):
+    def _update_data_dictionary(self, filename: str, year: int, state_code: str, variables: List[str] = None):
         """Update the data dictionary with information about the HMDA dataset"""
         try:
             # Load existing dictionary
@@ -81,13 +87,11 @@ class HMDADataAgent:
                 data_dict = {}
                 
             # Create description
-            description = f"HMDA (Home Mortgage Disclosure Act) data for {year}"
-            if state_code:
-                description += f" in {state_code}"
+            description = f"HMDA (Home Mortgage Disclosure Act) data for {year} in {state_code.upper()}"
                 
             data_dict[filename] = {
                 "description": description,
-                "coverage": f"Year: {year}" + (f", State: {state_code}" if state_code else ""),
+                "coverage": f"Year: {year}, State: {state_code.upper()}",
                 "features": variables if variables else [],
                 "usage": [
                     "Analyze mortgage lending patterns",

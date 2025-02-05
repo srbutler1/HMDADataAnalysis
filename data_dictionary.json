@@ -1,1 +1,62 @@
-{}
+{
+    "hmda_data_2018_AR.csv": {
+        "description": "HMDA (Home Mortgage Disclosure Act) data for 2018 in AR",
+        "coverage": "Year: 2018, State: AR",
+        "features": [
+            "action_taken",
+            "loan_type",
+            "loan_purpose",
+            "loan_amount",
+            "property_value",
+            "income",
+            "state_code"
+        ],
+        "usage": [
+            "Analyze mortgage lending patterns",
+            "Study loan approval rates",
+            "Examine property values and loan amounts",
+            "Investigate potential lending disparities"
+        ],
+        "linkage": "Can be linked with other HMDA datasets by year and geography"
+    },
+    "hmda_data_2022_AR.csv": {
+        "description": "HMDA (Home Mortgage Disclosure Act) data for 2022 in AR",
+        "coverage": "Year: 2022, State: AR",
+        "features": [
+            "action_taken",
+            "loan_type",
+            "loan_purpose",
+            "loan_amount",
+            "property_value",
+            "income",
+            "state_code"
+        ],
+        "usage": [
+            "Analyze mortgage lending patterns",
+            "Study loan approval rates",
+            "Examine property values and loan amounts",
+            "Investigate potential lending disparities"
+        ],
+        "linkage": "Can be linked with other HMDA datasets by year and geography"
+    },
+    "hmda_data_2023_KS.csv": {
+        "description": "HMDA (Home Mortgage Disclosure Act) data for 2023 in KS",
+        "coverage": "Year: 2023, State: KS",
+        "features": [
+            "action_taken",
+            "loan_type",
+            "loan_purpose",
+            "loan_amount",
+            "property_value",
+            "income",
+            "state_code"
+        ],
+        "usage": [
+            "Analyze mortgage lending patterns",
+            "Study loan approval rates",
+            "Examine property values and loan amounts",
+            "Investigate potential lending disparities"
+        ],
+        "linkage": "Can be linked with other HMDA datasets by year and geography"
+    }
+}

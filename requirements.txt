@@ -1,11 +1,37 @@
+# Core dependencies
 pandas
 streamlit
-langchain-core
-scikit-learn
 plotly
+python-dotenv
+requests
+
+# LangChain dependencies
+langchain-core
 langchain
 langgraph
 langchain-openai
-python-dotenv
 langchain-experimental
-requests
+
+# AutoGen dependencies
+pyautogen>=0.2.0
+
+# lightgbm
+lightgbm
+
+# Note for macOS users:
+# For Apple Silicon (M1/M2) Macs:
+# 1. Make sure you're using Python for ARM64:
+#    brew install python@3.9
+# 2. Create a new virtual environment:
+#    python3.13 -m venv venv
+#    source venv/bin/activate
+# 3. Install OpenMP:
+#    arch -arm64 brew install libomp
+# 4. Install dependencies:
+#    arch -arm64 pip install -r requirements.txt
+#
+# For Intel Macs:
+# 1. Install OpenMP:
+#    brew install libomp
+# 2. Set library path:
+#    export LIBRARY_PATH=$LIBRARY_PATH:/usr/local/opt/libomp/lib

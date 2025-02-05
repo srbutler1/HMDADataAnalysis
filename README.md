@@ -31,10 +31,16 @@ This project builds upon the data analysis agent created by [saoudrizwan](https:
 ```bash
 pip install -r requirements.txt
 ```
-3. Create a `.env` file with your OpenAI API key:
-```
+3. Create a `.env` file in the project root with the following content:
+```bash
+# OpenAI API Key for LangChain integration
 OPENAI_API_KEY=your_key_here
+
+# Optional: Streamlit configuration
+STREAMLIT_SERVER_MAX_UPLOAD_SIZE=2000
 ```
+
+Replace `your_key_here` with your actual OpenAI API key. You can get an API key from [OpenAI's website](https://platform.openai.com/api-keys).
 
 ## Usage
 
